@@ -129,8 +129,9 @@ public class TixingNaozhongFragment extends android.support.v4.app.Fragment {
                                 P.le("添加闹钟的时间选择器启动成功");
                                 listenner.NaozhongHasChanged();
                                 Long dis = Long.valueOf(hourOfDay * 3600 * 1000 + minute * 60 * 1000);
+                                long ctime=System.currentTimeMillis()/60000*60000;
                                 SimpleNaozhong sn = new SimpleNaozhong(-1, -1,
-                                        System.currentTimeMillis() + dis);
+                                        ctime + dis);
                                 sn.setId(snList.size());
                                 if (snList.size() == 0) {
                                     snList.add(sn);

@@ -1,8 +1,10 @@
 package a.xiaonaozhong.ui;
 
 import android.app.Activity;
+import android.app.Service;
 import android.os.Bundle;
 
+import android.os.Vibrator;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,6 +19,7 @@ import a.xiaonaozhong.R;
 
 public class RingNaozhongActivity extends Activity {
     MusicUtil mu;
+    private Vibrator vibrator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,12 @@ public class RingNaozhongActivity extends Activity {
         tvTime.setText(AllData.getFormatTime(time));
         tvName.setText(name);
         tvLable.setText(lable);
+        if(bundle.getBoolean(AllData.SHAKE)){
+            vibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
+            vibrator.vibrate(AllData.DEFAUL_SOUND_LONG * 60 * 1000);
+        }
+
+
         musicPath = "/storage/emulated/0" + "/往前一步-白鹤.mp3";
         try {
             mu = new MusicUtil(this);
@@ -68,5 +77,11 @@ public class RingNaozhongActivity extends Activity {
             }
         });
 
+    }
+
+    @Override
+    protected void onPause() {
+        vibrator.cancel();
+        super.onPause();
     }
 }
