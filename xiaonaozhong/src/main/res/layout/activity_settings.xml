@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:showDividers="middle">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/setting_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/pad_very_large">
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/settings_item_big_divider"
+            android:orientation="vertical"
+            android:showDividers="middle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/settings_item_divider"
+                android:orientation="vertical"
+                android:showDividers="middle">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="闹钟"
+    android:textSize="@dimen/text_size_little_middle"
+    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@drawable/settings_item_divider"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:paddingBottom="7dp"
+                    android:paddingTop="@dimen/pad_little_large"
+                    android:showDividers="middle">
+
+                    <TextView
+                        android:id="@+id/tixing_chose_lingsheng"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="5dp"
+                        android:text="默认音乐:  "
+                        android:textColor="@color/set_key_color"
+                        android:textSize="@dimen/text_size_little_large" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="bottom"
+                        android:gravity="bottom">
+
+                        <TextView
+                            android:id="@+id/tv_setting_music"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="bottom"
+                            android:maxLines="1"
+                            android:text=" "
+                            android:textSize="@dimen/set_small_text_size" />
+
+                        <TextView
+                            android:id="@+id/jiantou"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="right"
+                            android:text="＞"
+                            android:textSize="@dimen/text_size_large" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_zhengdong"
+                    android:paddingBottom="@dimen/pad_middle"
+                    android:paddingTop="@dimen/pad_middle">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="5dp"
+                        android:text="开启震动: "
+                        android:textColor="@color/set_key_color"
+                        android:textSize="@dimen/text_size_little_large" />
+
+                    <a.xiaonaozhong.ui.WiperSwitch
+                        android:id="@+id/wiperSwitch1_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="7dp"
+                    android:paddingTop="@dimen/pad_middle">
+
+                    <TextView
+                        android:id="@+id/tixing_chose_picture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="5dp"
+                        android:text="默认图片: "
+                        android:textColor="@color/set_key_color"
+                        android:textSize="@dimen/text_size_little_large" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true">
+
+                        <TextView
+                            android:id="@+id/tv_setting_picture"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="bottom"
+                            android:maxLines="1"
+                            android:text=" "
+                            android:textSize="@dimen/set_small_text_size" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_gravity="right"
+                            android:text="＞"
+                            android:textSize="@dimen/text_size_large" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/settings_item_divider"
+                android:orientation="vertical"
+                android:showDividers="middle">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="其它"
+                    android:textSize="@dimen/text_size_little_middle"
+                    />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="7dp"
+                    android:paddingTop="@dimen/pad_little_large">
+
+                    <TextView
+                        android:id="@+id/tv_setting_guanyu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="5dp"
+                        android:text="关于"
+                        android:textColor="@color/set_key_color"
+                        android:textSize="@dimen/text_size_little_large" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="right"
+                        android:text="＞"
+                        android:textSize="@dimen/text_size_large" />
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

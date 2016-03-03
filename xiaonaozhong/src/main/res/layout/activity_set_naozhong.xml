@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/set_naozhong_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="设置闹钟"
+            android:textSize="@dimen/text_size_middle"/>
+
+    </android.support.v7.widget.Toolbar>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TimePicker
+        android:paddingBottom="20dp"
+        android:id="@+id/set_naozhong_time_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/pad_middle"
+            android:paddingBottom="@dimen/pad_middle">
+
+            <TextView
+                android:id="@+id/set_naozhong_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="名称:"
+                android:textColor="@color/set_key_color"
+                android:textSize="@dimen/text_size_large" />
+
+            <TextView
+                android:id="@+id/set_naozhong_name_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="150dp"
+                android:text="名称"
+                android:ellipsize="end"
+                android:textColor="@color/set_content_color"
+                android:textSize="@dimen/set_small_text_size" />
+
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/pad_little_large"
+        android:paddingBottom="7dp"
+        >
+
+        <TextView
+            android:id="@+id/set_naozhong_repeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="5dp"
+            android:paddingBottom="3dp"
+            android:text="重复: "
+            android:textColor="@color/set_key_color"
+            android:textSize="@dimen/text_size_large" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/set_naozhong_repeat_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="音乐"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="bottom"
+                android:textColor="@color/set_content_color"
+                android:textSize="@dimen/set_small_text_size"  />
+
+            <TextView
+                android:id="@+id/jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:text="＞"
+                android:textSize="@dimen/text_size_large" />
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/pad_little_large"
+        android:paddingBottom="7dp"
+        >
+
+        <TextView
+            android:id="@+id/set_naozhong_alarm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="5dp"
+            android:paddingBottom="3dp"
+            android:text="铃声: "
+            android:textColor="@color/set_key_color"
+            android:textSize="@dimen/text_size_large" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/set_naozhong_alarm_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="音乐"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="bottom"
+                android:textColor="@color/set_content_color"
+                android:textSize="@dimen/set_small_text_size"  />
+
+            <TextView
+                android:id="@+id/set_naozhong_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:text="＞"
+                android:textSize="@dimen/text_size_large" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_zhengdong"
+        android:paddingTop="@dimen/pad_middle"
+        android:paddingBottom="@dimen/pad_middle">
+
+        <TextView
+            android:id="@+id/set_naozhong_shake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:text="震动: "
+            android:textColor="@color/set_key_color"
+            android:textSize="@dimen/text_size_large" />
+
+        <a.xiaonaozhong.ui.WiperSwitch
+            android:id="@+id/set_naozhong_shake_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/pad_middle"
+        android:paddingBottom="@dimen/pad_middle">
+
+        <TextView
+            android:id="@+id/set_naozhong_lable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="标签:"
+            android:textColor="@color/set_key_color"
+            android:textSize="@dimen/text_size_large" />
+
+        <EditText
+            android:id="@+id/set_naozhong_lable_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="150dp"
+            android:text="标签"
+            android:ellipsize="end"
+            android:textColor="@color/set_content_color"
+            android:textSize="@dimen/set_small_text_size" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/pad_little_large"
+        android:paddingBottom="7dp"
+        >
+
+        <TextView
+            android:id="@+id/set_naozhong_resound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="5dp"
+            android:paddingBottom="3dp"
+            android:text="再响设置: "
+            android:textColor="@color/set_key_color"
+            android:textSize="@dimen/text_size_large" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/set_naozhong_resound_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="再响"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="bottom"
+                android:textColor="@color/set_content_color"
+                android:textSize="@dimen/set_small_text_size"  />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:text="＞"
+                android:textSize="@dimen/text_size_large" />
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/pad_middle"
+        android:paddingBottom="7dp">
+
+        <TextView
+            android:id="@+id/tixing_chose_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingBottom="3dp"
+            android:layout_alignParentLeft="true"
+            android:text="图片:"
+            android:textColor="@color/set_key_color"
+            android:textSize="@dimen/text_size_large" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+            <TextView
+                android:id="@+id/edit_text_tixing_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="假装有图片"
+                android:maxLines="1"
+                android:gravity="bottom"
+                android:textColor="@color/set_content_color"
+                android:ellipsize="end"
+                android:textSize="@dimen/set_small_text_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="right"
+                android:text="＞"
+                android:textSize="@dimen/text_size_large" />
+        </RelativeLayout>
+    </LinearLayout>
+        <TextView
+            android:id="@+id/set_naozhong_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="删除此闹钟"
+            android:textSize="@dimen/text_size_large" />
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".dateAndLogic.MainActivity">
+<item android:id="@+id/set_naozhong_menu_item_tick"
+    android:icon="@mipmap/tick"
+    android:title="确定"
+    app:showAsAction="always"/>
+</menu>

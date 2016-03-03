@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.SetTixingActivity" >
+
+    <TextView
+        android:id="@+id/et_tixing_set_name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:hint="@string/test_string"
+        android:textSize="15pt" >
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/three_btn_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_reset_tixing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="重置"
+            android:textSize="@dimen/set_small_text_size"
+            android:gravity="center"
+         />
+        <Button
+            android:id="@+id/btn_send_icon"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="图标"
+            android:textSize="@dimen/set_small_text_size"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/btn_open_tixing"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="开关"
+            android:textSize="@dimen/set_small_text_size"
+            android:gravity="center"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/id_ly_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        layout="@layout/set_tixing_topbar"
+        android:layout_below="@+id/et_tixing_set_name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager_set_tixing"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/id_ly_topbar"
+        android:layout_above="@+id/three_btn_linear_layout"
+        android:layout_centerHorizontal="true" >
+    </android.support.v4.view.ViewPager>
+
+</RelativeLayout>
