@@ -141,6 +141,7 @@ public class Tixing {
             setOpen(AllData.DEFAUL_OPEN);
             setCount(count);
         } else {// 从sharedPreference里面获取
+            setId(id);
             setName(sharedPreferences.getString(AllData.NAME,
                     AllData.DEFLAUL_NAME));
 

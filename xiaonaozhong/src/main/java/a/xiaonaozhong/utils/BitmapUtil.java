@@ -22,9 +22,52 @@ import a.xiaonaozhong.R;
 public class BitmapUtil {
     Context context;
     private float rwidth;
+    private float inTextSize;
+    private float shortTextSize;
+    private Paint inP;
+    private int inWidth;
+    private float fInWidth;
+    private int shortWidth;
+
+    private float fshortWidth;
+    private Paint shortP;
 
     public BitmapUtil(Context context) {
         this.context = context;
+        inWidth = (int) (((int) context.getResources().getDimension(
+                android.R.dimen.app_icon_size)) * 1.8);
+        shortWidth = (int) context.getResources().getDimension(
+                android.R.dimen.app_icon_size);
+        fInWidth = (float) inWidth;
+        fshortWidth = (float) shortWidth;
+
+        // 启用抗锯齿和使用设备的文本字??
+        inP = new Paint(Paint.ANTI_ALIAS_FLAG
+                | Paint.DEV_KERN_TEXT_FLAG);
+        inP.setTypeface(Typeface.SANS_SERIF);
+        inP.setColor(0xffFF6633);
+        inP.setTypeface(Typeface.SANS_SERIF);
+
+        shortP = new Paint(Paint.ANTI_ALIAS_FLAG
+                | Paint.DEV_KERN_TEXT_FLAG);
+        shortP.setTypeface(Typeface.SANS_SERIF);
+        shortP.setColor(0xffFF6633);
+
+        inTextSize = 30f;
+        inP.setTextSize(inTextSize);
+        float rwidth = fInWidth * 21 / 32;
+        while (inP.measureText("方圆") < rwidth) {
+            inTextSize += 1f;
+            inP.setTextSize(inTextSize);
+        }
+
+        shortTextSize = 20f;
+        shortP.setTextSize(shortTextSize);
+        rwidth = fshortWidth * 6 / 8;
+        while (shortP.measureText("方圆") < rwidth) {
+            shortTextSize += 1f;
+            shortP.setTextSize(shortTextSize);
+        }
     }
 
     /**
@@ -38,49 +81,46 @@ public class BitmapUtil {
         if (bitmap == null)
             bitmap = BitmapFactory.decodeResource(res, R.mipmap.naozhong_icon);
 
-        // 初始化画宽度
-        int bitmapSize = (int) context.getResources().getDimension(
-                android.R.dimen.app_icon_size);
-        Bitmap bitmapCanvas = Bitmap.createBitmap(bitmapSize, bitmapSize,
+        Paint bitmapPaint = new Paint();//用来设置要填充的图片的效??
+        bitmapPaint.setDither(true);// 防抖??
+        bitmapPaint.setFilterBitmap(true);// 用来对Bitmap进行滤波处理，这样，当你选择Drawable时，会有抗锯齿的效果
+
+        Bitmap bitmapCanvas = Bitmap.createBitmap(shortWidth, shortWidth,
                 Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmapCanvas);
 
-        Paint bitmapPaint = new Paint();//画笔
-        bitmapPaint.setAlpha(150);
-        bitmapPaint.setDither(true);// 防抖??
-        bitmapPaint.setFilterBitmap(true);// 用来对Bitmap进行滤波处理，这样，当你选择Drawable时，会有抗锯齿的效果
         Rect src = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());//原图片的大小
-        Rect dst = new Rect(0, 0, bitmapSize, bitmapSize);//底板的大??
+        Rect dst = new Rect(0, 0, shortWidth, shortWidth);//底板的大??
         canvas.drawBitmap(bitmap, src, dst, bitmapPaint);//????用于缩放
 
-        // 启用抗锯齿和使用设备的文本字??
-        Paint countPaint = new Paint(Paint.ANTI_ALIAS_FLAG
-                | Paint.DEV_KERN_TEXT_FLAG);
-        countPaint.setColor(0xffFF6633);
-
         //屏幕适配尺寸
-        if (title.length() > 4) title = title.substring(0, 4);
-        //屏幕适配尺寸
-        float textSize = 45f;
-        countPaint.setTextSize(textSize);
-        //rwidth=()
-        if (title.length() == 1) {
-            //while (countPaint.measureText(String.valueOf(title))<) {
+        int len=title.length();
+        if (len > 4) title = title.substring(0, 4);
 
-            //}
+        float x;
+        if (len == 1)
+            x = (fshortWidth) * 5 / 16;
+        else x = (fshortWidth) / 8;
+
+
+        Paint.FontMetrics fm = shortP.getFontMetrics();
+        float add = (fm.bottom - fm.top) / 2 - fm.descent;
+        if (len <= 2) {
+            float y = fshortWidth / 2 + add;
+            canvas.drawText(title, x, y,
+                    shortP);
+        } else {
+            float y = fshortWidth * 9 / 32 + add;
+            String s1 = title.substring(0, 2);
+            String s2 = title.substring(2, len);
+            canvas.drawText(s1, x, y, shortP);
+            if (s2.length() == 1)
+                x = fshortWidth / 2 - add + 1f / 32f;
+            y = fshortWidth * 21 / 32 + add;
+            canvas.drawText(s2, x, y, shortP);
         }
-        float x, y;
-        switch (10) {
-            case 10:
-                break;
-            default:
-                break;
-        }
-        countPaint.setTextSize(45f);
-        countPaint.setTypeface(Typeface.SANS_SERIF);
-        canvas.drawText(title, 2, 11 * bitmapSize / 16,
-                countPaint);
         return bitmapCanvas;
+
     }
 
     /**
@@ -99,56 +139,59 @@ public class BitmapUtil {
 
         //获取已有的Drawable图片
         Resources res = context.getResources();
-        int width = (int) (((int) context.getResources().getDimension(
-                android.R.dimen.app_icon_size)) * 1.8);
 
-        Bitmap bitmapCanvas = Bitmap.createBitmap(width, width,
+
+        Bitmap bitmapCanvas = Bitmap.createBitmap(inWidth, inWidth,
                 Config.ARGB_8888);//位图画板// 初始化画宽度
         Canvas canvas = new Canvas(bitmapCanvas);
         if (bitmap == null)
             bitmap = BitmapFactory.decodeResource(res, R.mipmap.naozhong_icon);
-        bitmap = createFramedPhoto(width, width, bitmap, 25);
+        bitmap = createFramedPhoto(inWidth, inWidth, bitmap, 25);
         //设置用于缩放
         Rect srcRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());//原图片的大小
-        Rect objRect = new Rect(0, 0, width, width);//底板的大??
+        Rect objRect = new Rect(0, 0, inWidth, inWidth);//底板的大??
         canvas.drawBitmap(bitmap, srcRect, objRect, bitmapPaint);
 
-        // 启用抗锯齿和使用设备的文本字??
-        Paint countPaint = new Paint(Paint.ANTI_ALIAS_FLAG
-                | Paint.DEV_KERN_TEXT_FLAG);
-        countPaint.setColor(0xffFF6633);
-        if (!open) countPaint.setAlpha(120);
+
+        if (!open) inP.setAlpha(120);
         if (title.length() > 4) title = title.substring(0, 4);
+        int len = title.length();
+
         //屏幕适配尺寸
-        float textSize = 30f;
-        countPaint.setTextSize(textSize);
-        float rwidth=0f;
-        switch (title.length()) {
-            case 1:
-                rwidth= (float) width * 3 / 5;
-                break;
-            case 2:
-                rwidth = (float) width * 6 / 8;
-                break;
-            case 3:
-                rwidth = (float) width * 6 / 8;
-                break;
-            case 4:
-                rwidth = (float) width * 6 / 8;
-                break;
-            default:
-                title=title.substring(0,4);
-                rwidth = (float) width * 6 / 8;
-                break;
+        Paint.FontMetrics fm = inP.getFontMetrics();
+        float add = (fm.bottom - fm.top) / 2 - fm.descent;
+        float y = fInWidth / 2 + add;
+        float y1 = fInWidth * 9 / 32 + add;
+        float y2 = fInWidth * 22 / 32 + add;
+
+        float x1=0, x2 = 0, x3 = 0, x4 = 0;
+        if (len == 1) {
+            x1 = (fInWidth) * 11 / 32;
+            canvas.drawText(title.substring(0, 1), x1, y,inP);
+        } else if (len == 2) {
+            x1 = (fInWidth) * 4 / 32;
+            x2 = (fInWidth) * 17 / 32;
+            canvas.drawText(title.substring(0, 1), x1, y, inP);
+            canvas.drawText(title.substring(1, 2), x2, y, inP);
+        } else if (len == 3) {
+            x1 = (fInWidth) * 4 / 32;
+            x2 = (fInWidth) * 17 / 32;
+            x3 = (fInWidth) * 11 / 32;
+            canvas.drawText(title.substring(0, 1), x1, y1, inP);
+            canvas.drawText(title.substring(1, 2), x2, y1, inP);
+            canvas.drawText(title.substring(2, 3), x3, y2, inP);
+
+        } else if (len == 4) {
+            x1 = (fInWidth) * 4 / 32;
+            x2 = (fInWidth) * 17 / 32;
+            x3 = (fInWidth) * 4 / 32;
+            x4 = (fInWidth) * 17 / 32;
+            canvas.drawText(title.substring(0, 1), x1, y1, inP);
+            canvas.drawText(title.substring(1, 2), x2, y1, inP);
+            canvas.drawText(title.substring(2, 3), x3, y2, inP);
+            canvas.drawText(title.substring(3, 4), x4, y2, inP);
+
         }
-        while (countPaint.measureText(String.valueOf(title)) < rwidth) {
-            textSize += 1f;
-            countPaint.setTextSize(textSize);
-        }
-        Log.e("textSize"," " + textSize);
-        countPaint.setTypeface(Typeface.SANS_SERIF);
-        canvas.drawText(title, 2, 11 * width / 16,
-        		countPaint);
         return bitmapCanvas;
     }
 

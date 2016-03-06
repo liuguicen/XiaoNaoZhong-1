@@ -35,6 +35,7 @@ public class TixingNaozhongFragment extends android.support.v4.app.Fragment {
      * 当FRagmen被加载到activity的时候会被回调
      *
      * @param activity
+
      */
     @Override
     public void onAttach(Activity activity) {
