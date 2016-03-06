@@ -4,6 +4,15 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
+    signingConfigs {
+        release {
+            storeFile file("doubleUsejks")
+            storePassword "111111"
+            keyAlias "haha"
+            keyPassword "111111"
+        }
+    }
+
     defaultConfig {
         applicationId "a.xiaonaozhong"
         minSdkVersion 15
@@ -12,9 +21,13 @@ android {
         versionName "1.0"
     }
     buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }

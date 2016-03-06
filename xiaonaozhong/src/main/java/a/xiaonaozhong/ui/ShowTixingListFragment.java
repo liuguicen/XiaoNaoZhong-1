@@ -104,7 +104,6 @@ public class ShowTixingListFragment  extends Fragment{
 
             TextView nameText = (TextView) item
                     .findViewById(R.id.text_tixing_item_name);
-            ;
             Bitmap iconBitmap;
             String text;
             float alpha;
