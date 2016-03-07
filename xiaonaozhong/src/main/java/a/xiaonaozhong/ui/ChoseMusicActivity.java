@@ -60,10 +60,14 @@ class ChoiseView extends FrameLayout implements Checkable {
 }
 
 /**
- * 选择音乐的Activtiy,需要传入已有的音乐路径，定位到那里，如果没有音乐可选，则返回已有的音乐路径，
+ * 选择音乐的Activtiy,需要传入已有的音乐路径，"musicPath" 为key，
+ * 定位到那里，如果没有音乐可选，则返回已有的音乐路径，
  * 返回形式
  * resultIntent.putExtra("musicPath", musicPath);
+ * 选择了音乐
  * setResult(1, resultIntent);
+ * 取消了音乐：
+ * setResult(0, resultIntent);
  * 注意已有的音乐路径如果失效，
  */
 public class ChoseMusicActivity extends AppCompatActivity {

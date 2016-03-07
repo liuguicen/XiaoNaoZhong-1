@@ -20,11 +20,6 @@ public class AllData {
             "周三","周四","周五","周六","周日"} ;
     public static String MAX_ID="maxId";
 
-    public static Boolean getDefaultShake(Context context) {
-        if(DEFAULT_SHAKE==null)
-            getSetting(context);
-        return DEFAULT_SHAKE;
-    }
     public static void setDefaultShake(Boolean v) {
         DEFAULT_SHAKE=v;
     }
@@ -55,6 +50,11 @@ public class AllData {
     public static final String MUSIC_PATH = "musicPath";
     public static final String SHAKE = "shake";
     public static Boolean DEFAULT_SHAKE;
+    public static Boolean getDefaultShake(Context context) {
+        if(DEFAULT_SHAKE==null)
+            getSetting(context);
+        return DEFAULT_SHAKE;
+    }
     public static final String LABLE = "lable";
     public static final String DEFAUL_LABLE = "标签";
     public static final String PICTURE_PATH = "/Wallpaper";
@@ -120,7 +120,7 @@ public class AllData {
      * 开始启动应用是获取数据，以后运行过程中不在获取，数据会同时到内存和外存中
      * @param context
      */
-    private static void getSetting(Context context)
+    public static void getSetting(Context context)
     {
         SharedPreferences sp = context.getSharedPreferences("setting", context.MODE_PRIVATE);
         SharedPreferences.Editor spEditor = sp.edit();

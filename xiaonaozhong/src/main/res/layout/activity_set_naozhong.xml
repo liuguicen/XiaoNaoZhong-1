@@ -44,7 +44,7 @@
                 android:textColor="@color/set_key_color"
                 android:textSize="@dimen/text_size_large" />
 
-            <TextView
+            <EditText
                 android:id="@+id/set_naozhong_name_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

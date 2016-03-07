@@ -148,10 +148,11 @@ public class Naozhong {
      */
     private Naozhong(Context context) {
         NaozhongManager nzManager = NaozhongManager.getInstance(context);
+        AllData.getSetting(context);
         id = nzManager.getNextId();
         init(context, id);
         open=AllData.DEFAUL_OPEN;
-        time = 0l;
+        time = System.currentTimeMillis();
         name = AllData.DEFLAUL_NAME;
         repeat = new boolean[]{true, true, true, true, true, true, true};
         musicPath = AllData.DEFAULT_MUSIC_PATH;
@@ -183,7 +184,7 @@ public class Naozhong {
     public void save() {
         init(context, id);
         spEditor.putInt(id + "id", id);
-        spEditor.putBoolean(id+AllData.OPEN,true);
+        spEditor.putBoolean(id+AllData.OPEN,open);
         spEditor.putLong(id + AllData.TIME,time);
         spEditor.putString(id + AllData.NAME,name);
         for (int i = 0; i < 7; i++) {

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,7 +29,8 @@ public class ShowNaozhongListFragment extends Fragment {
     Context context;
     NaozhongManager nzManager;
     List<Map<String,Object>> naozhongInfoList;
-
+    int selectPosition;
+    private ListView naozhongList;
 
     @Override
     public void onAttach(Context context) {
@@ -48,7 +50,7 @@ public class ShowNaozhongListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       View view=inflater.inflate(R.layout.fragment_show_naozhong,null);
-        ListView naozhongList= (ListView) view.findViewById(R.id.list_show_naozhong);
+        naozhongList = (ListView) view.findViewById(R.id.list_show_naozhong);
         naozhongList.setAdapter(new NaozhongAdapter());
         setClick(view);
         return view;
@@ -61,8 +63,18 @@ public class ShowNaozhongListFragment extends Fragment {
             public void onClick(View v) {
                 P.le(this.getClass().getName(),"PLUS.onclick()成功");
                 Intent intent = new Intent(context,SetNaozhongActivity.class);
-                intent.putExtra("position",-1);
+                intent.putExtra("id",-1);
                 startActivityForResult(intent,1);
+            }
+        });
+        naozhongList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectPosition=position;
+                id=(long)naozhongInfoList.get(position).get("id");
+                Intent intent=new Intent(context,SetNaozhongActivity.class);
+                intent.putExtra("id",id);
+                startActivityForResult(intent,2);
             }
         });
     }
@@ -97,10 +109,15 @@ public class ShowNaozhongListFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==0)//增加
+        if(resultCode==0)//增加，
         {
             nzManager.insert(data.getIntExtra("id",0));
-        }
+            naozhongList.invalidate();
+        }else if(resultCode==1)//删除都不在这里处理
+        {
+            nzManager.delete(selectPosition);
+            naozhongList.invalidate();
+        }//更改不会改变id与位置的对应关系
         super.onActivityResult(requestCode, resultCode, data);
     }
 }
