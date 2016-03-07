@@ -130,6 +130,7 @@ public class Naozhong {
 
         time = sp.getLong(id + AllData.TIME, 0);
         name = sp.getString(id + AllData.NAME, " ");
+        repeat=new boolean[7];
         for (int i = 0; i < 7; i++) {
             repeat[i] = sp.getBoolean(id + AllData.REPEAT + i, true);
         }
@@ -199,9 +200,9 @@ public class Naozhong {
         spEditor.commit();
     }
     public void delete(){
-        spEditor.remove(id+"id");
+        spEditor.remove(id + "id");
         spEditor.remove(id + AllData.TIME);
-        spEditor.remove(id+AllData.OPEN);
+        spEditor.remove(id + AllData.OPEN);
         spEditor.remove(id + AllData.NAME);
         for(int i = 0; i < 7; i++) {
             spEditor.remove(id + AllData.REPEAT + i);
@@ -212,6 +213,20 @@ public class Naozhong {
         spEditor.remove(id + AllData.SOUND_LONG);
         spEditor.remove(id + AllData.RESOUND_CISHU);
         spEditor.remove(id + AllData.RESOUND_INTERVAL);
+        spEditor.commit();
+    }
+
+    /**
+     * 静态的方法，直接放入某个闹钟的某个值
+     * @param context
+     * @param id 闹钟的id
+     * @param key sp的key
+     * @param value sp的value
+     */
+    public static void update(Context context, int id, String key, boolean value) {
+        SharedPreferences sp = context.getSharedPreferences("naozhong", Context.MODE_PRIVATE);
+        SharedPreferences.Editor spEditor = sp.edit();
+        spEditor.putBoolean(id+key,value);
         spEditor.commit();
     }
 }

@@ -22,7 +22,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:divider="@drawable/settings_item_big_divider"
+        android:showDividers="middle">
     <TimePicker
         android:paddingBottom="20dp"
         android:id="@+id/set_naozhong_time_picker"

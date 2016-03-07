@@ -6,4 +6,5 @@
     <color name="set_key_color">#000000 </color>
     <color name="set_content_color" >#005555 </color>
     <color name="set_tixing_account_line">#222222</color>
+    <color name="toolbar_back_1">#4d69ff</color>
 </resources>

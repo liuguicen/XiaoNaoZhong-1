@@ -91,6 +91,13 @@ public class AllData {
         String dateStr = sdf.format(date);
         return dateStr.substring(11, 16);
     }
+
+    /**
+     *
+     * @param time timemils
+     *
+     * @return 24小时制，小时:分钟
+     */
     public static String getFormatTime(Long time) {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
         Date date = new Date(time);

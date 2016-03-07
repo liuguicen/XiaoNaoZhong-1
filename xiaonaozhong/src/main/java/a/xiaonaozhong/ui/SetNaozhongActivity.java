@@ -1,11 +1,8 @@
 package a.xiaonaozhong.ui;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,11 +17,14 @@ import java.util.TimeZone;
 import a.xiaonaozhong.R;
 import a.xiaonaozhong.dateAndLogic.AllData;
 import a.xiaonaozhong.dateAndLogic.Naozhong;
-import a.xiaonaozhong.dateAndLogic.NaozhongManager;
 import a.xiaonaozhong.utils.P;
 
 /**
  * Created by Administrator on 2016/2/27.
+ * result返回
+ * 0表示添加
+ * 1表示删除
+ * 2表示修改
  */
 public class SetNaozhongActivity extends AppCompatActivity {
     Boolean hasChanged = false;
@@ -106,8 +106,8 @@ public class SetNaozhongActivity extends AppCompatActivity {
         }
         else {
             naozhong = Naozhong.getNaozhong(this, naoZhongId);
-            time = naozhong.getTime();
         }
+
 
         repeat = naozhong.getRepeat();
         time=naozhong.getTime();
@@ -150,6 +150,7 @@ public class SetNaozhongActivity extends AppCompatActivity {
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
+                time = calendar.getTimeInMillis();
             }
         });
 
@@ -184,17 +185,17 @@ public class SetNaozhongActivity extends AppCompatActivity {
 
             }
         });
-        time = calendar.getTimeInMillis();
-
         deleteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 naozhong.delete();
                 setResult(1);
+                finish();
             }
         });
     }
     void save(){
+
         naozhong.setTime(time);
         naozhong.setName(name);
         naozhong.setRepeat(repeat);
@@ -203,6 +204,7 @@ public class SetNaozhongActivity extends AppCompatActivity {
         naozhong.setLable(lable);
         naozhong.setResoundCishu(resoundCishu);
         naozhong.setResoundInterval(resoundInterval);
+
         naozhong.save();
         setResult(0,new Intent().putExtra("id",naozhong.getId()));
     }
