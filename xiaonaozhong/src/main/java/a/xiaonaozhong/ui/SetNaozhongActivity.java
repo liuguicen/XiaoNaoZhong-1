@@ -17,6 +17,7 @@ import java.util.TimeZone;
 import a.xiaonaozhong.R;
 import a.xiaonaozhong.dateAndLogic.AllData;
 import a.xiaonaozhong.dateAndLogic.Naozhong;
+import a.xiaonaozhong.systemService.AlarmUtil;
 import a.xiaonaozhong.utils.P;
 
 /**
@@ -25,10 +26,12 @@ import a.xiaonaozhong.utils.P;
  * 0表示添加
  * 1表示删除
  * 2表示修改
+ * 4表示不做任何改变
  */
 public class SetNaozhongActivity extends AppCompatActivity {
     Boolean hasChanged = false;
     long time = 0;
+    long lastTime;
     Calendar calendar;
     private Naozhong naozhong;
 
@@ -53,10 +56,11 @@ public class SetNaozhongActivity extends AppCompatActivity {
     int resoundInterval;
     int resoundCishu;
     private String repeatString;
+    private int naoZhongId;
 
 
     public void getView() {
-        toolbar= (Toolbar) findViewById(R.id.set_naozhong_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.set_naozhong_toolbar);
         timePicker = (TimePicker) findViewById(R.id.set_naozhong_time_picker);
         timePicker.setIs24HourView(true);
         nameView = (EditText) findViewById(R.id.set_naozhong_name_content);
@@ -100,23 +104,22 @@ public class SetNaozhongActivity extends AppCompatActivity {
 
     void getData() {
         Intent intent = getIntent();
-        int naoZhongId = intent.getIntExtra("id", 0);
+        naoZhongId = intent.getIntExtra("id", 0);
         if (naoZhongId == -1) {
             naozhong = Naozhong.createNaozhong(this);
-        }
-        else {
+        } else {
             naozhong = Naozhong.getNaozhong(this, naoZhongId);
         }
 
-
+        name = naozhong.getName();
         repeat = naozhong.getRepeat();
-        time=naozhong.getTime();
+       lastTime= time = naozhong.getTime();
         alarm = naozhong.getMusicPath();
         shake = naozhong.getShake();
         lable = naozhong.getLable();
         resoundCishu = naozhong.getResoundCishu();
         resoundInterval = naozhong.getResoundInterval();
-        calendar=Calendar.getInstance();
+        calendar = Calendar.getInstance();
     }
 
     void init() {
@@ -134,11 +137,13 @@ public class SetNaozhongActivity extends AppCompatActivity {
         setClick();
         P.le(this.getClass().getName(), "has start");
     }
-    void setClick(){
+
+    void setClick() {
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(4);
                 SetNaozhongActivity.this.finish();
             }
         });
@@ -150,7 +155,7 @@ public class SetNaozhongActivity extends AppCompatActivity {
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
-                time = calendar.getTimeInMillis();
+                time = calendar.getTimeInMillis()/60000*60000;
             }
         });
 
@@ -168,7 +173,7 @@ public class SetNaozhongActivity extends AppCompatActivity {
         alarmView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent= new Intent(SetNaozhongActivity.this,
+                Intent intent = new Intent(SetNaozhongActivity.this,
                         ChoseMusicActivity.class);
                 intent.putExtra(AllData.MUSIC_PATH, naozhong.getMusicPath());
                 startActivityForResult(intent, 0);
@@ -194,8 +199,12 @@ public class SetNaozhongActivity extends AppCompatActivity {
             }
         });
     }
-    void save(){
 
+    void save() {
+        name = nameView.getText().toString();
+        lable = lableView.getText().toString();
+        if(naoZhongId!=-1&&lastTime!=time&&naozhong.isOpen())
+            new AlarmUtil(this).cancelNaozhong(naozhong);
         naozhong.setTime(time);
         naozhong.setName(name);
         naozhong.setRepeat(repeat);
@@ -204,24 +213,33 @@ public class SetNaozhongActivity extends AppCompatActivity {
         naozhong.setLable(lable);
         naozhong.setResoundCishu(resoundCishu);
         naozhong.setResoundInterval(resoundInterval);
-
         naozhong.save();
-        setResult(0,new Intent().putExtra("id",naozhong.getId()));
+
+        if (naoZhongId == -1) {//创建
+            new AlarmUtil(this).setNaozhong(naozhong);
+            setResult(0, new Intent().putExtra("id", naozhong.getId()));
+        }
+        else {
+            if(lastTime!=time&&naozhong.isOpen())
+                new AlarmUtil(this).setNaozhong(naozhong);
+            setResult(2, new Intent().putExtra("id", naozhong.getId()));
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_set_naozhong,menu);
+        getMenuInflater().inflate(R.menu.menu_set_naozhong, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id=item.getItemId();
-        switch (id){
+        int id = item.getItemId();
+        switch (id) {
             case R.id.set_naozhong_menu_item_tick:
-            save();
-            break;
+                save();
+                finish();
+                break;
         }
         return true;
     }
@@ -234,8 +252,8 @@ public class SetNaozhongActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==0&&resultCode==1){//返回了音乐
-            alarm=data.getStringExtra(AllData.MUSIC_PATH);
+        if (requestCode == 0 && resultCode == 1) {//返回了音乐
+            alarm = data.getStringExtra(AllData.MUSIC_PATH);
             alarmView.setText(AllData.getFileName(alarm));
         }
         super.onActivityResult(requestCode, resultCode, data);

@@ -29,6 +29,8 @@ public abstract class Manager {
     List<Map<String, Object>> dataList;
     /**
      * SharedPreferences
+     * 放入3种量，count，maxId，
+     * 第i个值对应的的id id+i
      */
     SharedPreferences sp;
     SharedPreferences.Editor spEditor;
@@ -69,7 +71,7 @@ public abstract class Manager {
      *
      * @param position
      */
-    public abstract void update(int position);
+    public abstract void updata(int position, int id);
 
     /**
      * 获取第positon位置个的id

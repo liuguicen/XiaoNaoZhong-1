@@ -22,6 +22,7 @@ import a.xiaonaozhong.R;
 import a.xiaonaozhong.dateAndLogic.AllData;
 import a.xiaonaozhong.dateAndLogic.Naozhong;
 import a.xiaonaozhong.dateAndLogic.NaozhongManager;
+import a.xiaonaozhong.systemService.AlarmUtil;
 import a.xiaonaozhong.utils.P;
 
 /**
@@ -83,9 +84,9 @@ public class ShowNaozhongListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectPosition = position;
-                id = (int) naozhongInfoList.get(position).get("id");
+                int naozhongId = (int) naozhongInfoList.get(position).get("id");
                 Intent intent = new Intent(context, SetNaozhongActivity.class);
-                intent.putExtra("id", id);
+                intent.putExtra("id", naozhongId);
                 startActivityForResult(intent, 2);
             }
         });
@@ -109,23 +110,32 @@ public class ShowNaozhongListFragment extends Fragment {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             View view = (convertView == null ? View.inflate(context,
                     R.layout.item_show_naozhong, null) : convertView);
             TextView timeView = (TextView) view.findViewById(R.id.item_naozhong_time);
 
             final int mposition=position;
-            final WiperSwitch shake = (WiperSwitch) view.findViewById(R.id.item_naozhong_shake);
-            shake.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            final int mid = (int) (naozhongInfoList.get(mposition).get("id"));
+            final WiperSwitch open = (WiperSwitch) view.findViewById(R.id.item_naozhong_shake);
+            open.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    int id=(int)(naozhongInfoList.get(mposition).get("id"));
-                    Naozhong.update(context, id, AllData.SHAKE, shake.isChecked());
+
+                    Naozhong.update(context, mid, AllData.OPEN, open.isChecked());
+                    naozhongInfoList.get(position).put(AllData.OPEN,open.isChecked());
+
+                    if (open.isChecked()) {
+                        new AlarmUtil(context).setNaozhong(Naozhong.getNaozhong(context, mid));
+                    } else {
+                        new AlarmUtil(context).cancelNaozhong(Naozhong.getNaozhong(context, mid));
+                    }
                 }
-        });
+            });
             long time=(long)(naozhongInfoList.get(position).get("time"));
             timeView.setText(String.valueOf(AllData.getFormatTime(time)));
-            shake.setChecked((Boolean) naozhongInfoList.get(position).get("open"));
+            open.setChecked((Boolean) naozhongInfoList.get(position).get("open"));
+
             return view;
         }
     }
@@ -134,13 +144,18 @@ public class ShowNaozhongListFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == 0)//增加，
         {
-            nzManager.insert(data.getIntExtra("id", 0));
+            int mid=data.getIntExtra("id", 0);
+            nzManager.insert(mid);
             nzadAdapter.notifyDataSetChanged();
         } else if (resultCode == 1)//删除
         {
             nzManager.delete(selectPosition);
             nzadAdapter.notifyDataSetChanged();
         }//更改不会改变id与位置的对应关系
+        else if(requestCode==2){
+            nzManager.updata(selectPosition,data.getIntExtra("id",0));
+            nzadAdapter.notifyDataSetChanged();
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

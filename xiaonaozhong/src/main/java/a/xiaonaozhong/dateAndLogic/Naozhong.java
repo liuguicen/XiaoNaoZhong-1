@@ -100,6 +100,16 @@ public class Naozhong {
 
     boolean[] repeat;
     String musicPath;
+
+    public String getPicturePath() {
+        return picturePath;
+    }
+
+    public void setPicturePath(String picturePath) {
+        this.picturePath = picturePath;
+    }
+
+    String picturePath;
     Boolean shake;
     String lable;
     int soundLong;
@@ -135,6 +145,7 @@ public class Naozhong {
             repeat[i] = sp.getBoolean(id + AllData.REPEAT + i, true);
         }
         musicPath = sp.getString(id + AllData.MUSIC_PATH, "　");
+        picturePath = sp.getString(id + AllData.PICTURE_PATH, "　");
         shake = sp.getBoolean(id + AllData.SHAKE, true);
         lable = sp.getString(id + AllData.LABLE, " ");
         soundLong = sp.getInt(id + AllData.SOUND_LONG, 0);
@@ -157,6 +168,8 @@ public class Naozhong {
         name = AllData.DEFLAUL_NAME;
         repeat = new boolean[]{true, true, true, true, true, true, true};
         musicPath = AllData.DEFAULT_MUSIC_PATH;
+        picturePath = AllData.DEFAULT_PICTURE_PATH;
+
         shake = AllData.DEFAULT_SHAKE;
         lable = AllData.DEFAUL_LABLE;
         soundLong = AllData.DEFAUL_SOUND_LONG;
@@ -192,6 +205,7 @@ public class Naozhong {
             spEditor.putBoolean(id + AllData.REPEAT + i,repeat[i]);
         }
         spEditor.putString(id + AllData.MUSIC_PATH,musicPath);
+        spEditor.putString(id + AllData.MUSIC_PATH,picturePath);
         spEditor.putBoolean(id + AllData.SHAKE,shake);
         spEditor.putString(id + AllData.LABLE,lable);
         spEditor.putInt(id + AllData.SOUND_LONG,soundLong);
@@ -208,6 +222,7 @@ public class Naozhong {
             spEditor.remove(id + AllData.REPEAT + i);
         }
         spEditor.remove(id + AllData.MUSIC_PATH);
+        spEditor.remove(id + AllData.PICTURE_PATH);
         spEditor.remove(id + AllData.SHAKE);
         spEditor.remove(id + AllData.LABLE);
         spEditor.remove(id + AllData.SOUND_LONG);

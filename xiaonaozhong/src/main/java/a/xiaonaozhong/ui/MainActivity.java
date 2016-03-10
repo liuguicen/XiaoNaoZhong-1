@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     ShowTixingListFragment showTxFragment;
     ShowNaozhongListFragment showNzFragment;
+    RelativeLayout relativeLayout;
 
     public void test() {
         AlarmUtil alarmUtil = new AlarmUtil(this);
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.icon);//设置Navigation 图
-
+        relativeLayout = (RelativeLayout) findViewById(R.id.relative_layout);
         tabTixing = (TextView) findViewById(R.id.tab_tixing);
         tabNaozhong = (TextView) findViewById(R.id.tab_naozhong);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         tabNaozhong.setTextColor(Color.BLACK);
                         break;
                     case 1:
+                        relativeLayout.setBackgroundResource(R.mipmap.back_b);
                         tabTixing.setTextColor(Color.BLACK);
                         tabNaozhong.setTextColor(Color.WHITE);
                         break;
@@ -138,15 +141,15 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_settings:
-                startActivity(new Intent(this,SettingActivity.class));
+                startActivity(new Intent(this, SettingActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        if(!ClickUtil.isEffectExitClick()){
-            Toast.makeText(this,"再按一次我就退出",Toast.LENGTH_LONG).show();
+        if (!ClickUtil.isEffectExitClick()) {
+            Toast.makeText(this, "再按一次我就退出", Toast.LENGTH_LONG).show();
             return;
         }
         super.onBackPressed();

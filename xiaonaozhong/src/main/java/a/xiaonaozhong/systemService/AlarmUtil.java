@@ -7,6 +7,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 
+import a.xiaonaozhong.dateAndLogic.Naozhong;
 import a.xiaonaozhong.utils.P;
 import a.xiaonaozhong.dateAndLogic.SimpleNaozhong;
 import a.xiaonaozhong.dateAndLogic.Tixing;
@@ -25,6 +26,7 @@ public class AlarmUtil {
      * @param sn 用时间区分是哪一个闹钟 ，不能重复
      */
     public void setNaozhong(Tixing tx, SimpleNaozhong sn) {
+        if(sn.getTime()<System.currentTimeMillis())return;
         Intent intent = new Intent(context, StartNaozhongService.class);
         intent.putExtra("name", tx.getName());
         intent.putExtra("lable", tx.getLable());
@@ -51,6 +53,7 @@ public class AlarmUtil {
      * @param sn 要设定的闹钟
      */
     public void cancelNaozhong(Tixing tx, SimpleNaozhong sn) {
+        if(sn.getTime()<System.currentTimeMillis())return;
         Intent intent = new Intent(context, StartNaozhongService.class);
         intent.putExtra("name", tx.getName());
         intent.putExtra("lable", tx.getLable());
@@ -66,5 +69,54 @@ public class AlarmUtil {
         ((AlarmManager) context.getSystemService(Service.ALARM_SERVICE))
                 .cancel(pendingIntent);
         P.le("AlarmUtil.cancelNaozhong(): 取消闹钟已成功","时间是"+sn.getTime());
+    }
+    /**
+     * 启动一个处理闹钟的service
+     *
+     * @param nz 在intent之中写入要传给showNaozhongActivity显示和处理的数据
+     */
+    public void setNaozhong(Naozhong nz) {
+        if(nz.getTime()<System.currentTimeMillis())return;
+        Intent intent = new Intent(context, StartNaozhongService.class);
+        intent.putExtra("name", nz.getName());
+        intent.putExtra("lable", nz.getLable());
+        intent.putExtra("time", nz.getTime());
+        intent.putExtra("picturePath", nz.getPicturePath());
+        intent.putExtra("musicPath", nz.getMusicPath());
+        intent.putExtra("shake", nz.getShake());
+
+        PendingIntent pendingIntent = PendingIntent.getService(context,
+                nz.getId() + 1000*10000, intent, 0);
+
+        // 此处加判断是否有相同的时间
+        AlarmManager am = (AlarmManager) context
+                .getSystemService(Service.ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP, Long.valueOf(nz.getTime()),
+                pendingIntent);
+        P.le("AlarmUtil.setNaozhong():AlarmManager设置时间成功",nz.getTime());
+    }
+
+    /**
+     * 用时间区分是哪一个闹钟，不能重复
+     *
+     * @param nz 要设定的闹钟
+     */
+    public void cancelNaozhong(Naozhong nz) {
+        if(nz.getTime()<System.currentTimeMillis())return;
+        Intent intent = new Intent(context, StartNaozhongService.class);
+        intent.putExtra("name", nz.getName());
+        intent.putExtra("lable", nz.getLable());
+        intent.putExtra("time", nz.getTime());
+        intent.putExtra("picturePath", nz.getPicturePath());
+        intent.putExtra("musicPath", nz.getMusicPath());
+        intent.putExtra("shake", nz.getShake());
+
+
+        PendingIntent pendingIntent = PendingIntent.getService(context,
+                nz.getId() + 1000*10000, intent, 0);
+
+        ((AlarmManager) context.getSystemService(Service.ALARM_SERVICE))
+                .cancel(pendingIntent);
+        P.le("AlarmUtil.cancelNaozhong(): 取消闹钟已成功","时间是"+nz.getTime());
     }
 }

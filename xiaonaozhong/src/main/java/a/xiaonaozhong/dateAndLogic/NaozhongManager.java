@@ -26,6 +26,7 @@ public class NaozhongManager extends Manager {
         sp = context.getSharedPreferences("naozhongManager",
                 Context.MODE_PRIVATE);
         maxId=sp.getInt(AllData.MAX_ID, 0);
+        selecteSimpleInfo();
         spEditor = sp.edit();
     }
 
@@ -42,7 +43,7 @@ public class NaozhongManager extends Manager {
         for(Map<String,Object> map:dataList){
             spEditor.putInt("id" + i++, (Integer) map.get("id"));
         }
-        spEditor.putInt("count", dataList.size());
+        spEditor.putInt(AllData.COUNT, dataList.size());
         spEditor.commit();
     }
 
@@ -51,9 +52,9 @@ public class NaozhongManager extends Manager {
         Map<String,Object> map=new HashMap<String ,Object>();
         Naozhong naozhong= Naozhong.getNaozhong(context, id);
         map.put("id", id);
-        map.put("time",naozhong.getTime());
-        map.put("open",naozhong.isOpen());
-        dataList.add(map);
+        map.put(AllData.TIME,naozhong.getTime());
+        map.put(AllData.OPEN,naozhong.isOpen());
+        dataList.add(findInsertPosition(naozhong.getTime()), map);
         spEditor.putInt("maxId", maxId++);
         save();
     }
@@ -65,20 +66,28 @@ public class NaozhongManager extends Manager {
     }
 
     @Override
-    public void update(int position) {
+    public void updata(int position, int id) {
+        dataList.remove(position);
+        Map<String,Object> map=new HashMap<String ,Object>();
+        Naozhong naozhong= Naozhong.getNaozhong(context, id);
+        map.put("id", id);
+        map.put(AllData.TIME, naozhong.getTime());
+        map.put(AllData.OPEN, naozhong.isOpen());
+        dataList.add(findInsertPosition(naozhong.getTime()), map);
+        save();
     }
 
     @Override
     public void selecteSimpleInfo() {
-        int count=sp.getInt("count",0);//默认值为0，若没有保存过，值为0，就不用处理了
+        int count=sp.getInt("count", 0);//默认值为0，若没有保存过，值为0，就不用处理了
+        SharedPreferences nzSp = context.getSharedPreferences("naozhong", Context.MODE_PRIVATE);
         for(int i=0;i<count;i++){
-            SharedPreferences naozhongSp=context.getSharedPreferences(
-                    "naozhong"+i,Context.MODE_PRIVATE
-            );
-            Map<String,Object> map=dataList.get(i);
-            map.put(AllData.TIME,naozhongSp.getLong(AllData.TIME,0));
-            map.put(AllData.OPEN,naozhongSp.getBoolean(AllData.OPEN,true));
+            Map<String,Object> map=new HashMap<String,Object>();
+            int nzId=sp.getInt("id"+i,0);
+            map.put("id",nzId);
+            map.put(AllData.TIME,nzSp.getLong(nzId+AllData.TIME,0));
+            map.put(AllData.OPEN,nzSp.getBoolean(nzId+AllData.OPEN,true));
+            dataList.add(map);
         }
     }
-
 }
