@@ -19,15 +19,17 @@
 
     <TextView
         android:id="@+id/text_tixing_item_name"
-        android:layout_width="wrap_content"
+        android:layout_width="80dp"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:textSize="@dimen/text_size_little_middle"
-        android:maxLines="1"
+        android:singleLine="true"
         android:ellipsize="end"
         android:textColor="@color/set_key_color"
         android:layout_below="@+id/image_tixing_icon"
         android:paddingTop="@dimen/pad_little_middle"
-        android:text="TextView"/>
+        android:text="TextView"
+        />
 
 </RelativeLayout>
