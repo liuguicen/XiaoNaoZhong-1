@@ -19,6 +19,8 @@ public class AllData {
     public static final String[] XINGQI = new String[]{"周一","周二",
             "周三","周四","周五","周六","周日"} ;
     public static String MAX_ID="maxId";
+    public static String BACK_SERVICE="LGC_BACK_SERVICE";
+    public static int NAOZHONG_NUMBER=1;
 
     public static void setDefaultShake(Boolean v) {
         DEFAULT_SHAKE=v;

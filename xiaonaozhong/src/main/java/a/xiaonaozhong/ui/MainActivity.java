@@ -2,6 +2,7 @@ package a.xiaonaozhong.ui;
 
 import a.xiaonaozhong.R;
 
+import a.xiaonaozhong.dateAndLogic.AllData;
 import a.xiaonaozhong.dateAndLogic.SimpleNaozhong;
 import a.xiaonaozhong.dateAndLogic.Tixing;
 import a.xiaonaozhong.systemService.AlarmUtil;
@@ -41,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void init() {
-
+        if(AllData.NAOZHONG_NUMBER>0)
+            startService(new Intent(AllData.BACK_SERVICE));
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.mipmap.icon);//设置Navigation 图
