@@ -28,19 +28,19 @@ public class RingNaozhongActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置全屏
 
-    //锁屏启动并且打开屏幕
+        //锁屏启动并且打开屏幕
         getWindow().addFlags(
                 WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
                         | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-        |WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                        | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_ring_naozhong);
-        Bundle bundle =getIntent().getExtras();
+        Bundle bundle = getIntent().getExtras();
         TextView tvTime = (TextView) findViewById(R.id.tv_show_naozhong_time);
         TextView tvName = (TextView) findViewById(R.id.tv_show_naozhong_name);
         TextView tvLable = (TextView) findViewById(R.id.tv_show_naozhong_lable);
 
-        String musicPath = bundle.getString("musicPath");
+        String musicPath = bundle.getString(AllData.MUSIC_PATH);
         Long time = bundle.getLong("time");
         String name = bundle.getString("name");
         String lable = bundle.getString("lable");
@@ -48,13 +48,10 @@ public class RingNaozhongActivity extends Activity {
         tvTime.setText(AllData.getFormatTime(time));
         tvName.setText(name);
         tvLable.setText(lable);
-        if(bundle.getBoolean(AllData.SHAKE)){
+        if (bundle.getBoolean(AllData.SHAKE)) {
             vibrator = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
             vibrator.vibrate(AllData.DEFAUL_SOUND_LONG * 60 * 1000);
         }
-
-
-        musicPath = "/storage/emulated/0" + "/往前一步-白鹤.mp3";
         try {
             mu = new MusicUtil(this);
             mu.startMusic(musicPath);
@@ -72,16 +69,22 @@ public class RingNaozhongActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                mu.stopMusic();
+                if (mu != null)
+                    mu.stopMusic();
+                if (vibrator != null)
+                    vibrator.cancel();
                 finish();
             }
         });
-
     }
 
     @Override
     protected void onPause() {
-        vibrator.cancel();
+        if (vibrator != null)
+            vibrator.cancel();
+
+        if (mu != null)
+            mu.stopMusic();
         super.onPause();
     }
 }

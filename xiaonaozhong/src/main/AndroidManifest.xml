@@ -116,8 +116,9 @@
         </receiver>-->
 
         <service android:name=".systemService.StartNaozhongService">
-            <intent-filter>
+            <intent-filter android:priority="1000">
                 <action android:name="XIAONAOZHONG_NAOZHONG_SERVICE" />
+
             </intent-filter>
         </service>
         <service android:name=".systemService.BackService"
